@@ -120,8 +120,7 @@ services:
   payment-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
     ports:
       - "5003:8080"
       - "50004:50001"
@@ -143,11 +142,10 @@ services:
   product-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
     ports:
-      - "5004:8080"
-      - "50005:50001"
+      - "5005:8080"
+      - "50005:50005"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

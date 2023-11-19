@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Product.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,14 +16,7 @@ namespace Product.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedByUserCode = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,14 +28,7 @@ namespace Product.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedByUserCode = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,18 +41,11 @@ namespace Product.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     PictureFileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CatalogTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CatalogBrandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AvailableStock = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedByUserCode = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    AvailableStock = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,13 +55,13 @@ namespace Product.Infrastructure.Migrations
                         column: x => x.CatalogBrandId,
                         principalTable: "CatalogBrand",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CatalogItem_CatalogType_CatalogTypeId",
                         column: x => x.CatalogTypeId,
                         principalTable: "CatalogType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Payment.Application.IntegrationEvents.EventHandling;
 using Serilog;
 using Serilog.Formatting.Json;
 using Serilog.Sinks.RabbitMQ;
@@ -72,6 +73,8 @@ namespace Order.API.Helpers
                                 pubSubName));
             }
 
+            services.Services.AddDaprClient();
+
             services.Services.AddScoped<IDaprStateStore>(sp => new DaprStateStore(sp.GetRequiredService<ILogger<DaprStateStore>>()));
 
         }
@@ -85,6 +88,8 @@ namespace Order.API.Helpers
             {
                 cfg.RegisterServicesFromAssemblies(assemblies.ToArray());
             });
+
+            builder.Services.AddScoped<OrderStatusChangedToValidatedIntegrationEventHandler>();
         }
 
     }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Order.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,14 +19,7 @@ namespace Order.Infrastructure.Migrations
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedByUserCode = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,14 +37,7 @@ namespace Order.Infrastructure.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     BuyerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BuyerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedByUserCode = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    BuyerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,8 +46,7 @@ namespace Order.Infrastructure.Migrations
                         name: "FK_Order_Address_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -72,16 +57,9 @@ namespace Order.Infrastructure.Migrations
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
                     Units = table.Column<int>(type: "int", nullable: true),
-                    PictureFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedByUserCode = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    PictureFileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,8 +68,7 @@ namespace Order.Infrastructure.Migrations
                         name: "FK_OrderItem_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

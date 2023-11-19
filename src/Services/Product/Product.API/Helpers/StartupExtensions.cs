@@ -70,6 +70,7 @@ namespace Order.API.Helpers
                                 x.GetRequiredService<ILogger<DaprEventBus>>(),
                                 pubSubName));
             }
+            services.Services.AddDaprClient();
 
             services.Services.AddScoped<IDaprStateStore>(sp => new DaprStateStore(sp.GetRequiredService<ILogger<DaprStateStore>>()));
 
@@ -95,7 +96,8 @@ namespace Order.API.Helpers
 
             builder.Services.AddDbContext<ProductDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("ProductConnectionstring"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ProductConnectionstring"),
+                    b => b.MigrationsAssembly("Product.Infrastructure"));
             });
 
             builder.Services.AddAutoMapper(assemblies);

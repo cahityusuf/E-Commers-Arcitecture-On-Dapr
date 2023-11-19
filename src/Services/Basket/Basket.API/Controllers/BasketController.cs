@@ -57,7 +57,7 @@ public class BasketController : ControllerBase
                         basketCheckout.Country,
                         basketCheckout.CardNumber,
                         basketCheckout.CardHolderName,
-                        basketCheckout.CardExpiration,
+                        basketCheckout.CardExpiration.Value,
                         basketCheckout.CardSecurityCode
                     ));
 

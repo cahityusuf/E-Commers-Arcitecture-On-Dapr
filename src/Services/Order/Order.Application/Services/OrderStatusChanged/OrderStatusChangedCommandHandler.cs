@@ -36,54 +36,63 @@ namespace Order.Application.Services.OrderStatusChanged
         public async Task<Result<OrderDto>> Handle(OrderStatusChangedCommand request, CancellationToken cancellationToken)
         {
 
-                var actorId = new ActorId(request.OrderId.ToString());
-                var orderingProcess = _actorProxyFactory.CreateActorProxy<IOrderingProcessActor>(
-                    actorId,
-                    nameof(OrderingProcessActor));
+            var actorId = new ActorId(request.OrderId.ToString());
+            var orderingProcess = _actorProxyFactory.CreateActorProxy<IOrderingProcessActor>(
+                actorId,
+                nameof(OrderingProcessActor));
 
-                var state = await orderingProcess.GetOrderDetails();
+            var state = await orderingProcess.GetOrderDetails();
 
-                var readModelOrder = new Domain.AggregatesModel.OrderAggregate.Order()
+            var readModelOrder = new Domain.AggregatesModel.OrderAggregate.Order()
+            {
+                Id = request.OrderId,
+                OrderDate = state.OrderDate,
+                OrderStatus = state.OrderStatus.Name,
+                BuyerId = state.BuyerId,
+                BuyerEmail = state.BuyerEmail,
+                Description = state.Description,
+                Address = new Address()
                 {
-                    Id = request.OrderId,
-                    OrderDate = state.OrderDate,
-                    OrderStatus = state.OrderStatus.Name,
-                    BuyerId = state.BuyerId,
-                    BuyerEmail = state.BuyerEmail,
-                    Description = state.Description,
-                    Address = new Address()
+                    Id = Guid.NewGuid(),
+                    Street = state.Address.Street,
+                    City = state.Address.City,
+                    State = state.Address.State,
+                    Country = state.Address.Country
+                },
+                OrderItems = state.OrderItems
+                    .Select(itemState => new OrderItem()
                     {
-                        Id= Guid.NewGuid(),
-                        Street = state.Address.Street,
-                        City = state.Address.City,
-                        State = state.Address.State,
-                        Country = state.Address.Country
-                    },
-                    OrderItems = state.OrderItems
-                        .Select(itemState => new OrderItem()
-                        {
-                            Id = Guid.NewGuid(),
-                            OrderId = request.OrderId,
-                            PictureFileName = itemState.PictureFileName,
-                            ProductId = itemState.ProductId,
-                            ProductName = itemState.ProductName,
-                            UnitPrice = itemState.UnitPrice,
-                            Units = itemState.Units
-                        })
-                        .ToList()
-                };
+                        Id = Guid.NewGuid(),
+                        OrderId = request.OrderId,
+                        PictureFileName = itemState.PictureFileName,
+                        ProductId = itemState.ProductId,
+                        ProductName = itemState.ProductName,
+                        UnitPrice = itemState.UnitPrice,
+                        Units = itemState.Units
+                    })
+                    .ToList()
+            };
 
+            try
+            {
                 await _orderRepository.AddAsync(readModelOrder);
 
                 await orderingProcess.OrderStatusChangedToSubmittedAsync();
+            }
+            catch (Exception ex)
+            {
 
-                return new SuccessResult<OrderDto>(_mapper.Map<OrderDto>(readModelOrder))
-                {
-                    Messages = new List<string>
+                throw;
+            }
+
+
+            return new SuccessResult<OrderDto>(_mapper.Map<OrderDto>(readModelOrder))
+            {
+                Messages = new List<string>
                     {
                         "Sipariş kabul edildi, sipariş işlemi kaydedildi"
                     }
-                };
+            };
 
         }
     }

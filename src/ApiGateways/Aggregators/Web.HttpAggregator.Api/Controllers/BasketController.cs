@@ -31,11 +31,8 @@ public class BasketController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(BasketCheckoutDto), (int)HttpStatusCode.OK)]
     public async Task<ActionResult> BasketCheckoutAsync(
-    [FromBody] BasketCheckoutDto basket,
-    [FromHeader(Name = "Correlation-Id")] string requestId)
+    [FromBody] BasketCheckoutDto basket)
     {
-
-        var reqid = requestId.ToString();
 
         return Ok(await _basket.CheckoutAsync(basket));
     }

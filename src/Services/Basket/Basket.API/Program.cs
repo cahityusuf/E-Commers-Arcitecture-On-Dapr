@@ -20,9 +20,8 @@ app.UseCloudEvents();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.MapSubscribeHandler();
 app.MapControllers();
-
+app.MapSubscribeHandler();
 try
 {
     app.Logger.LogInformation("Starting web host ({ApplicationName})...", appName);

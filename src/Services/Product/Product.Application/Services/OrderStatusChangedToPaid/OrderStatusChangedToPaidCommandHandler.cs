@@ -35,8 +35,16 @@ namespace Product.Application.Services.OrderStatusChangedToPaid
                         updateModel.Add(catalogItem);
                     }
                 }
+                try
+                {
+                    await _context.UpdateAsync(updateModel);
+                }
+                catch (Exception ex)
+                {
 
-                await _context.UpdateAsync(updateModel);
+                    throw;
+                }
+
 
                 return new SuccessResult<List<CatalogItem>>(updateModel);
 

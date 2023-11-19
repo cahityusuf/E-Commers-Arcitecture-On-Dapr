@@ -2,7 +2,6 @@
 using ECommers.Dapr;
 using ECommers.Dapr.Abstractions;
 using ECommers.Data;
-using Grpc.Net.Client.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Order.Application.Actors;
 using Order.Domain.AggregatesModel.AddressAggregate;
@@ -11,9 +10,7 @@ using Order.Domain.AggregatesModel.OrderItemAggregate;
 using Order.Infrastructure.DbContexts;
 using Order.Infrastructure.Repositories;
 using Serilog;
-using Serilog.Formatting.Json;
 using Serilog.Sinks.Elasticsearch;
-using Serilog.Sinks.RabbitMQ;
 using System.Reflection;
 
 namespace Order.API.Helpers
@@ -88,7 +85,9 @@ namespace Order.API.Helpers
 
             builder.Services.AddDbContext<OrderDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SampleConnectionstring"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("OrderConnectionstring"),
+                    b => b.MigrationsAssembly("Order.Infrastructure"));
+                ;
             });
 
             builder.Services.AddAutoMapper(assemblies);

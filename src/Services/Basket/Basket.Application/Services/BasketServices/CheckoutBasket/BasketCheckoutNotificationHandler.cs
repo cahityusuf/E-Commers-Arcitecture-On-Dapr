@@ -14,10 +14,10 @@ namespace Basket.Application.Services.BasketServices.CheckoutBasket
             _daprStateStore = daprStateStore;
             _eventBus = eventBus;
         }
-        private const string DAPR_PUBSUB_NAME = "pubsub";
+        private const string DAPR_STATESTORE_NAME = "statestore";
         public async Task Handle(BasketCheckoutNotification notification, CancellationToken cancellationToken)
         {
-            var basket = await _daprStateStore.GetStateAsync<BasketDto>(DAPR_PUBSUB_NAME,notification.UserId);
+            var basket = await _daprStateStore.GetStateAsync<BasketDto>(DAPR_STATESTORE_NAME, notification.UserId);
 
             var eventRequestId = Guid.TryParse(notification.RequestId, out Guid parsedRequestId)
                 ? parsedRequestId : Guid.NewGuid();

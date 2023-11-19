@@ -56,6 +56,7 @@ namespace Basket.API.Helpers
                .Select(Assembly.LoadFrom);
 
             builder.Services.AddScoped<IBasketService, BasketService>();
+
         }
 
     }

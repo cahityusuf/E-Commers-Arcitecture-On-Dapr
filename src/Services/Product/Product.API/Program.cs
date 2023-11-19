@@ -1,6 +1,7 @@
 using Order.API.Helpers;
+using Product.API;
 
-var appName = "Basket API";
+var appName = "Product API";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,14 +21,13 @@ app.UseCloudEvents();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.MapSubscribeHandler();
 app.MapControllers();
-
+app.MapSubscribeHandler();
 try
 {
     app.Logger.LogInformation("Applying database migration ({ApplicationName})...", appName);
     app.ApplyDatabaseMigration();
-
+    SeedData.InitializeDatabase(app);
     app.Logger.LogInformation("Starting web host ({ApplicationName})...", appName);
     app.Run();
 }

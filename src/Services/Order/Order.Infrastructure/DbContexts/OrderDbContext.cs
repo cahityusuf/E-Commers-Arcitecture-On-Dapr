@@ -20,7 +20,10 @@ namespace Order.Infrastructure.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.Entity<Domain.AggregatesModel.OrderItemAggregate.OrderItem>()
+                .Property(item => item.UnitPrice).HasPrecision(18, 2); // Hassasiyet ve ölçek belirleme
+
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
     }
