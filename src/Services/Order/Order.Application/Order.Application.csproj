@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="MediatR" Version="12.2.0" />
+		<PackageReference Include="Dapr.Actors" Version="1.12.0" />
+		<PackageReference Include="Dapr.Actors.AspNetCore" Version="1.12.0" />
+		<PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
+		<PackageReference Include="Dapr.Extensions.Configuration" Version="1.12.0" />
+		<PackageReference Include="DevExtreme.AspNet.Data" Version="3.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\ECommers.Dapr\ECommers.Dapr.csproj" />
+	  <ProjectReference Include="..\..\..\Framework\ECommers.Abstraction\ECommers.Abstraction.csproj" />
+	  <ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\Queryies\" />
+	</ItemGroup>
+
+
+</Project>

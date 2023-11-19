@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapr.Client" Version="1.10.0" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ECommers.Dapr\ECommers.Dapr.csproj" />
+    <ProjectReference Include="..\..\..\Framework\ECommers.Abstraction\ECommers.Abstraction.csproj" />
+    <ProjectReference Include="..\Basket.Abstraction\Basket.Abstraction.csproj" />
+  </ItemGroup>
+
+</Project>
