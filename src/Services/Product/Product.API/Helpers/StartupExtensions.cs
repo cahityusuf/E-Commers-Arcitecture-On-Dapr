@@ -74,6 +74,14 @@ namespace Order.API.Helpers
             services.Services.AddScoped<IDaprStateStore>(sp => new DaprStateStore(sp.GetRequiredService<ILogger<DaprStateStore>>()));
 
         }
+        public static void ApplyDatabaseMigration(this WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+
+            var context = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+
+            context.Database.Migrate();
+        }
         public static void AddCustomApplicationServices(this WebApplicationBuilder builder)
         {
             var assemblies = Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll", SearchOption.TopDirectoryOnly)

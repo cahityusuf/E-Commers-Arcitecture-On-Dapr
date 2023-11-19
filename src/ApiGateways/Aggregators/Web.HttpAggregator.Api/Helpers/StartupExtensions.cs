@@ -1,26 +1,17 @@
 ﻿using Dapr.Client;
 using ECommers.Dapr;
 using ECommers.Dapr.Abstractions;
-using ECommers.Data;
-using Grpc.Net.Client.Configuration;
-using Microsoft.EntityFrameworkCore;
-using Order.Application.Actors;
-using Order.Domain.AggregatesModel.AddressAggregate;
-using Order.Domain.AggregatesModel.OrderAggregate;
-using Order.Domain.AggregatesModel.OrderItemAggregate;
-using Order.Infrastructure.DbContexts;
-using Order.Infrastructure.Repositories;
 using Serilog;
-using Serilog.Formatting.Json;
-using Serilog.Sinks.RabbitMQ;
 using System.Reflection;
+using Web.HttpAggregator.Abstraction.Services;
+using Web.HttpAggregator.Application.Services;
 
-namespace Order.API.Helpers
+namespace Basket.API.Helpers
 {
     public static class StartupExtensions
     {
-        private const string AppName = "Order API";
-        public static WebApplicationBuilder AddOrderApi(this WebApplicationBuilder builder)
+        private const string AppName = "Basket API";
+        public static WebApplicationBuilder AddBasketApi(this WebApplicationBuilder builder)
         {
             builder.Services.AddControllers().AddDapr();
             builder.Services.AddEndpointsApiExplorer();
@@ -58,41 +49,13 @@ namespace Order.API.Helpers
             services.Services.AddScoped<IDaprStateStore>(sp => new DaprStateStore(sp.GetRequiredService<ILogger<DaprStateStore>>()));
 
         }
-        public static void ApplyDatabaseMigration(this WebApplication app)
-        {
-            using var scope = app.Services.CreateScope();
-
-            var context = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
-
-            context.Database.Migrate();
-        }
         public static void AddCustomApplicationServices(this WebApplicationBuilder builder)
         {
             var assemblies = Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll", SearchOption.TopDirectoryOnly)
-               .Where(filePath => Path.GetFileName(filePath).StartsWith("Order"))
+               .Where(filePath => Path.GetFileName(filePath).StartsWith("Basket"))
                .Select(Assembly.LoadFrom);
 
-            builder.Services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssemblies(assemblies.ToArray());
-            });
-
-            builder.Services.AddDbContext<OrderDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SampleConnectionstring"));
-            });
-
-            builder.Services.AddActors(options =>
-            {
-                options.Actors.RegisterActor<OrderingProcessActor>();
-            });
-
-            builder.Services.AddAutoMapper(assemblies);
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
-            builder.Services.AddScoped(typeof(IAddressRepository), typeof(AddressRepository));
-            builder.Services.AddScoped(typeof(IOrderItemRepository), typeof(OrderItemRepository));
-
+            builder.Services.AddScoped<IBasketService, BasketService>();
         }
 
     }
