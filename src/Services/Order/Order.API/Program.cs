@@ -14,15 +14,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-app.UseSwaggerUI();
+    app.UseSwaggerUI();
 }
 app.UseCloudEvents();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-app.MapSubscribeHandler();
 app.MapControllers();
-
+app.MapActorsHandlers();
+app.MapSubscribeHandler();
 try
 {
     app.Logger.LogInformation("Applying database migration ({ApplicationName})...", appName);

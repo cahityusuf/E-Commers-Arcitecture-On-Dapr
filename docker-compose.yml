@@ -22,63 +22,63 @@ services:
   dapr-placement:
     image: "daprio/dapr:1.9.4"
 
-  web.httpaggregator.api:
+  web-httpaggregator-api:
     image: ${DOCKER_REGISTRY-}webhttpaggregatorapi
     build:
       context: .
       dockerfile: src/ApiGateways/Aggregators/Web.HttpAggregator.Api/Dockerfile
 
-  web.httpaggregator.api.dapr:
+  web-httpaggregator-api-dapr:
     image: "daprio/daprd:1.9.4"
-    network_mode: "service:web.httpaggregator.api"
+    network_mode: "service:web-httpaggregator-api"
     depends_on:
-      - web.httpaggregator.api
+      - web-httpaggregator-api
 
-  basket.api:
+  basket-api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
       context: .
       dockerfile: src/Services/Basket/Basket.API/Dockerfile
 
-  basket.api.dapr:
+  basket-api-dapr:
     image: "daprio/daprd:1.9.4"
-    network_mode: "service:basket.api"
+    network_mode: "service:basket-api"
     depends_on:
-      - basket.api
+      - basket-api
 
-  order.api:
+  order-api:
     image: ${DOCKER_REGISTRY-}orderapi
     build:
       context: .
       dockerfile: src/Services/Order/Order.API/Dockerfile
 
-  order.api.dapr:
+  order-api-dapr:
     image: "daprio/daprd:1.9.4"
-    network_mode: "service:order.api"
+    network_mode: "service:order-api"
     depends_on:
-      - order.api
+      - order-api
 
-  payment.api:
+  payment-api:
     image: ${DOCKER_REGISTRY-}paymentapi
     build:
       context: .
       dockerfile: src/Services/Payment/Payment.API/Dockerfile
 
-  payment.api.dapr:
+  payment-api-dapr:
     image: "daprio/daprd:1.9.4"
-    network_mode: "service:payment.api"
+    network_mode: "service:payment-api"
     depends_on:
-      - payment.api
+      - payment-api
 
-  product.api:
+  product-api:
     image: ${DOCKER_REGISTRY-}productapi
     build:
       context: .
       dockerfile: src/Services/Product/Product.API/Dockerfile
 
-  product.api.dapr:
+  product-api-dapr:
     image: "daprio/daprd:1.9.4"
-    network_mode: "service:product.api"
+    network_mode: "service:product-api"
     depends_on:
-      - product.api
+      - product-api
 

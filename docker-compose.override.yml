@@ -33,8 +33,6 @@ services:
     - xpack.security.enabled=false
 
   kibana:
-    volumes:
-      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - 5601:5601
 
@@ -52,7 +50,7 @@ services:
     ports:
       - "50000:50000"
 
-  web.httpaggregator.api:
+  web-httpaggregator-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -64,10 +62,10 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro4
 
-  web.httpaggregator.api.dapr:
+  web-httpaggregator-api-dapr:
     command: ["./daprd",
-      "-app-id", "web.httpaggregator.api",
-      "-app-port", "80",
+      "-app-id", "web-httpaggregator-api",
+      "-app-port", "8080",
       "-components-path", "/components",
       "-config", "/configuration/config.yaml"
       ]
@@ -75,7 +73,7 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
-  basket.api:
+  basket-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -87,10 +85,10 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  basket.api.dapr:
+  basket-api-dapr:
     command: ["./daprd",
-      "-app-id", "basket.api",
-      "-app-port", "80",
+      "-app-id", "basket-api",
+      "-app-port", "8080",
       "-components-path", "/components",
       "-config", "/configuration/config.yaml"
       ]
@@ -98,22 +96,18 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
-  order.api:
+  order-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
     ports:
       - "5002:8080"
       - "50003:50001"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  order.api.dapr:
+  order-api-dapr:
     command: ["./daprd",
-      "-app-id", "order.api",
-      "-app-port", "80",
+      "-app-id", "order-api",
+      "-app-port", "8080",
       "-log-level", "debug",
       "-placement-host-address", "dapr-placement:50000",
       "-components-path", "/components",
@@ -123,7 +117,7 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
-  payment.api:
+  payment-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -135,10 +129,10 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  payment.api.dapr:
+  payment-api-dapr:
     command: ["./daprd",
-      "-app-id", "payment.api",
-      "-app-port", "80",
+      "-app-id", "payment-api",
+      "-app-port", "8080",
       "-components-path", "/components",
       "-config", "/configuration/config.yaml"
       ]
@@ -146,7 +140,7 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
-  product.api:
+  product-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -158,10 +152,10 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  product.api.dapr:
+  product-api-dapr:
     command: ["./daprd",
-      "-app-id", "product.api",
-      "-app-port", "80",
+      "-app-id", "product-api",
+      "-app-port", "8080",
       "-components-path", "/components",
       "-config", "/configuration/config.yaml"
       ]

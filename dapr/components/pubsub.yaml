@@ -7,7 +7,7 @@ spec:
   type: pubsub.rabbitmq
   version: v1
   metadata:
-  - name: host
+  - name: connectionString
     value: "amqp://rabbitmq:5672"
   - name: durable
     value: "false"
@@ -19,8 +19,3 @@ spec:
     value: "0"
   - name: concurrency
     value: parallel
-scopes:
-  - basket-api
-  - order-api
-  - product-api
-  - payment-api

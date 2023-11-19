@@ -12,6 +12,7 @@ using Order.Infrastructure.DbContexts;
 using Order.Infrastructure.Repositories;
 using Serilog;
 using Serilog.Formatting.Json;
+using Serilog.Sinks.Elasticsearch;
 using Serilog.Sinks.RabbitMQ;
 using System.Reflection;
 
@@ -37,6 +38,7 @@ namespace Order.API.Helpers
                 .ReadFrom.Configuration(builder.Configuration)
                 .WriteTo.Console()
                 .WriteTo.File("./Logs/log.json", rollingInterval: RollingInterval.Day)
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200")))
                 .Enrich.WithProperty("ApplicationName", AppName)
                 .CreateLogger();
 
@@ -56,6 +58,13 @@ namespace Order.API.Helpers
             }
 
             services.Services.AddScoped<IDaprStateStore>(sp => new DaprStateStore(sp.GetRequiredService<ILogger<DaprStateStore>>()));
+
+            services.Services.AddDaprClient();
+
+            services.Services.AddActors(options =>
+            {
+                options.Actors.RegisterActor<OrderingProcessActor>();
+            });
 
         }
         public static void ApplyDatabaseMigration(this WebApplication app)
@@ -80,11 +89,6 @@ namespace Order.API.Helpers
             builder.Services.AddDbContext<OrderDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SampleConnectionstring"));
-            });
-
-            builder.Services.AddActors(options =>
-            {
-                options.Actors.RegisterActor<OrderingProcessActor>();
             });
 
             builder.Services.AddAutoMapper(assemblies);
