@@ -9,8 +9,7 @@ using Product.Domain.AggregatesModel.CatalogTypeAggregate;
 using Product.Infrastructure.DbContexts;
 using Product.Infrastructure.Repositories;
 using Serilog;
-using Serilog.Formatting.Json;
-using Serilog.Sinks.RabbitMQ;
+using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
 
 namespace Order.API.Helpers
@@ -35,24 +34,7 @@ namespace Order.API.Helpers
                 .ReadFrom.Configuration(builder.Configuration)
                 .WriteTo.Console()
                 .WriteTo.File("./Logs/log.json", rollingInterval: RollingInterval.Day)
-                .WriteTo.RabbitMQ((clientConfiguration, sinkConfiguration) =>
-                {
-                    clientConfiguration.Username = builder.Configuration["Logging:Serilog:RabbitMq:RABBITMQ_USER"];
-                    clientConfiguration.Password = builder.Configuration["Logging:Serilog:RabbitMq:RABBITMQ_PASSWORD"];
-                    clientConfiguration.Exchange = builder.Configuration["Logging:Serilog:RabbitMq:RABBITMQ_EXCHANGE"];
-                    clientConfiguration.ExchangeType = builder.Configuration["Logging:Serilog:RabbitMq:RABBITMQ_EXCHANGE_TYPE"];
-                    clientConfiguration.DeliveryMode = RabbitMQDeliveryMode.NonDurable;
-                    clientConfiguration.RouteKey = builder.Configuration["Logging:Serilog:RabbitMq:ROUTEKEY"];
-                    clientConfiguration.Port = 5672;
-
-                    var hosts = builder.Configuration.GetSection("Logging:Serilog:RabbitMq:HOSTNAMES").Get<List<string>>();
-                    foreach (string hostname in hosts)
-                    {
-                        clientConfiguration.Hostnames.Add(hostname);
-                    }
-
-                    sinkConfiguration.TextFormatter = new JsonFormatter();
-                })
+                .WriteTo.File("./Logs/log.json", rollingInterval: RollingInterval.Day).WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200")))
                 .Enrich.WithProperty("ApplicationName", AppName)
                 .CreateLogger();
 

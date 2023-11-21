@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
 		<PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
 		<PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
@@ -23,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Framework\ECommers.Dapr\ECommers.Dapr.csproj" />
 		<ProjectReference Include="..\Basket.Abstraction\Basket.Abstraction.csproj" />
 		<ProjectReference Include="..\Basket.Application\Basket.Application.csproj" />
 	</ItemGroup>

@@ -3,8 +3,7 @@ using Dapr.Client;
 using ECommers.Dapr;
 using ECommers.Dapr.Abstractions;
 using Serilog;
-using Serilog.Formatting.Json;
-using Serilog.Sinks.RabbitMQ;
+using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
 
 namespace Basket.API.Helpers
@@ -28,7 +27,7 @@ namespace Basket.API.Helpers
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(builder.Configuration)
                 .WriteTo.Console()
-                .WriteTo.File("./Logs/log.json", rollingInterval: RollingInterval.Day)
+                .WriteTo.File("./Logs/log.json", rollingInterval: RollingInterval.Day).WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200")))
                 .Enrich.WithProperty("ApplicationName", AppName)
                 .CreateLogger();
 
