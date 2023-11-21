@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ECommers.Dapr\ECommers.Dapr.csproj" />
+    <ProjectReference Include="..\..\..\Framework\ECommers.Dapr\ECommers.Dapr.csproj" />
   </ItemGroup>
 
 </Project>

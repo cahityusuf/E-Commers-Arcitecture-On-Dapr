@@ -31,7 +31,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\..\ECommers.Dapr\ECommers.Dapr.csproj" />
 	  <ProjectReference Include="..\Product.Application\Product.Application.csproj" />
 	  <ProjectReference Include="..\Product.Infrastructure\Product.Infrastructure.csproj" />
 	</ItemGroup>

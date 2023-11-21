@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ECommers.Dapr\ECommers.Dapr.csproj" />
     <ProjectReference Include="..\..\..\Framework\ECommers.Abstraction\ECommers.Abstraction.csproj" />
     <ProjectReference Include="..\Web.HttpAggregator.Abstraction\Web.HttpAggregator.Abstraction.csproj" />
     <ProjectReference Include="..\Web.HttpAggregator.Application\Web.HttpAggregator.Application.csproj" />

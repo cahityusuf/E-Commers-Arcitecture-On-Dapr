@@ -17,8 +17,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\..\ECommers.Dapr\ECommers.Dapr.csproj" />
 	  <ProjectReference Include="..\..\..\Framework\ECommers.Abstraction\ECommers.Abstraction.csproj" />
+	  <ProjectReference Include="..\..\..\Framework\ECommers.Dapr\ECommers.Dapr.csproj" />
 	  <ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
 	</ItemGroup>
 
